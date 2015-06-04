@@ -1,0 +1,497 @@
+<!DOCTYPE html><html>
+
+<head>
+<meta charset="utf-8">
+<title>Docker入门</title>
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+</head>
+<body>
+<h1 id="toc_0">Docker简明教程</h1>
+
+<blockquote>
+<p>Docker自从诞生以来就一直备受追捧，学习Docker是一件很炫酷、很有意思的事情。我希望通过这篇文章能够让大家快速地入门Docker，并有一些学习成果来激发自己的学习兴趣。我也只是一个在Docker这条巨鲸上玩耍的小孩，全文如有不明确、不正确的地方，还请斧正。</p>
+</blockquote>
+
+<h2 id="toc_1">Ubuntu上安装Docker</h2>
+
+<p>Docker的基础是Linux容器技术，因此学习Docker最好是使用Linux。这里推荐Ubuntu系统，如果手边没有Ubuntu系统可以去<a href="https://www.digitalocean.com/">Digitalocean</a>、<a href="http://www.ucloud.cn/">Ucloud</a>等云服务商去租用一个Linux服务器。这样即使玩坏了也可以随时重来。</p>
+
+<p>在Ubuntu中只需要运行一行命令即可实现Docker的安装：</p>
+
+<pre><code>sudo apt-get install docker.io</code></pre>
+
+<p>运行完后，可以在终端输入docker看到下面的界面证明我们安装成功了（注：提示权限问题就添加sudo，下文同）:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhdiinnnt6117ej4k111amot9.png" alt=""></p>
+
+<p>从上图可以看到，Docker的命令并不多，只有三十几个。例如我们可以输入<code>docker info</code>来查看我们安装的Docker信息:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhdn03p1a2h1vrr1ncm105sf1be.png" alt=""></p>
+
+<h2 id="toc_2">运行容器</h2>
+
+<p>安装好之后，我们就可以来开始Docker之旅了，</p>
+
+<p>我们现在的Docker还是一个&quot;裸&quot;Docker，上面没有容器，等一下，什么式容器？所谓容器就是Docker中用来运行应用的，Docker的容器很轻量级，但功能却强悍的很。也没有镜像。镜像？镜像简单理解就是容器的只读版本，用来方便存储与交流。此时，我们可以通过官方提供给我们的镜像来进行学习。比如我们想在Docker中运行一个Ubuntu系统，很简单，Docker中得pull命令是用来获取镜像的，执行下面的命令，就会从官方仓库里获取Ubuntu 14.04版本的系统:</p>
+
+<pre><code>docker pull ubuntu:14.04</code></pre>
+
+<p>images命令用来查看本机Docker中存在哪些镜像，运行 <code>docker images</code>就会看到我们刚才获取的Ubuntu14.04系统:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhehqjg1nid2r61ntcep1gp9j.png" alt=""></p>
+
+<p>现在，我们把刚刚的镜像运行起来，运行起来的镜像就叫做容器了，容器是可读写的，这样我们就可以在容器里做很多有意思的事情了。<code>run</code> 命令就是将镜像运行起来的，运行:</p>
+
+<pre><code>docker run -it ubuntu:14.04</code></pre>
+
+<p>仔细看，你会发现终端交互的用户名变掉了，说明我们进入到了容器的内部，效果如下:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhfujqj1g2sgsv1f9ulpu195jo.png" alt=""></p>
+
+<p>现在我们所做的任何操作都是针对于目前容器而言的，不会影响到原来的系统，例如，我们在里面安装下nginx服务器，运行如下命令:</p>
+
+<pre><code>sudo apt-get install -y nginx</code></pre>
+
+<p>完成后执行<code>nginx -v</code>就会发现我们已经将nginx安装成功:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhg5olc1ln8a71e2q8i11c55t.png" alt=""></p>
+
+<h2 id="toc_3">将容器转化为镜像</h2>
+
+<p>在上一小节中，我们已经在容器里安装好了nginx，接下来我们希望将这个容器内容保存下来，这样我们下次就无需再次安装了。这就是Docker中将容器转换为镜像的技术。</p>
+
+<p>如果您还在刚刚的安装了nginx的终端里，执行<code>exit</code>退出此终端，回到系统本身的终端:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhge4b82fu1u1r5472dd5s9.png" alt=""></p>
+
+<p><code>ps</code>命令可以查看我们当前都运行了哪些容器，加上<code>-a</code>参数后就表示运行过哪些容器，因为我们刚刚已经退出了安装nginx的容器，因此我现在想查看它的话，需要使用-a参数，执行如下命令:</p>
+
+<pre><code>docker ps -a</code></pre>
+
+<p>此时，就会显示出我们刚刚运行的容器，并且Docker会很贴心的随机给每个容器都起个Names方便标示。效果如下：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhgndkk10peqp9pdkjq01rv8e.png" alt=""></p>
+
+<p><code>commit</code>命令用来将容器转化为镜像，运行下面的命令，我们可以讲刚刚的容器转换为镜像:</p>
+
+<pre><code>sudo docker commit -m &quot;Added nginx from ubuntu14.04&quot; -a &quot;saymagic&quot; 79c761f627f3 saymagic/ubuntu-nginx:v1</code></pre>
+
+<p>其中，<code>-m</code>参数用来来指定提交的说明信息；<code>-a</code>可以指定用户信息的；<code>79c761f627f3</code>代表的时容器的id；<code>saymagic/ubuntu-nginx:v1</code>指定目标镜像的用户名、仓库名和 tag 信息。创建成功后会返回这个镜像的 ID 信息。注意的是，你一定要将saymagic改为你自己的用户名。因为下文还会用到此用户名。</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhh46tf1pnu1imv401hpb1fp7j.png" alt=""></p>
+
+<p>这是我们再次使用<code>docker images</code>命令就会发现此时多出了一个我们刚刚创建的镜像:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhhbtju1t4sfsi1hjm171h1ed6o.png" alt=""></p>
+
+<p>此时，如果运行<code>docker run -it saymagic/ubuntu-nginx:v1</code>就会是一个已经安装了nginx的容器:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhhgpe615tp1vcedpf1lfj1dg5t.png" alt=""></p>
+
+<h2 id="toc_4">存储镜像</h2>
+
+<p>我们刚刚已经创建了自己的第一个镜像，尽管它很简单，但这已经非常棒了，现在，我们希望它能够被更多的人使用到，此时，我们就需要将这个镜像上传到镜像仓库，Docker的官方Docker Hub应该是目前最大的Docker镜像中心，所以，我们就将我们的镜像上传到Docker Hub。</p>
+
+<p>首先，我们需要成为Docker Hub的用户，前往<a href="https://hub.docker.com/">https://hub.docker.com/</a>进行注册。需要注意的是，为了方便下面的操作，你需要将你的用户名设为和我刚刚在上文提到的自定义用户名相同，例如我的刚刚将镜像的名字命名为是<code>saymagic/ubuntu-nginx:v2</code>,所以我的用户名为saymagic、注册完成后记住用户名、密码、邮箱。</p>
+
+<p><code>login</code>默认是用来登陆Docker Hub的，因此，输入如下命令来尝试登陆Docker Hub:</p>
+
+<pre><code>docker login</code></pre>
+
+<p>此时，就会输出交互，让我们输入Username、Password、Email,成功输入我们刚才注册的信息后就会返回Login Success提示:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhkdfrv1v191m9k6151ed71f6j9.png" alt=""></p>
+
+<p>运行命令:</p>
+
+<pre><code>docker push saymagic/ubuntu-nginx:v1</code></pre>
+
+<p>这就是我们为什么将刚刚的镜像命名为<code>saymagic/ubuntu-nginx:v1</code>的原因，如果你上面步骤都操作正确的正确的话，是会得到下面的内容:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhktt1v1aick17icsnol1ba5o.png" alt=""></p>
+
+<p>此时，不出意外的话，我们的镜像已经被上传到Docker Hub上面了，去Docker Hub上面看看：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mhkon2vgsd1lfe4mp1ago1sfcj.png" alt=""></p>
+
+<p>果然，我们在Docker Hub上有了我们的第一个镜像，此时，其它的用户就可以通过命令<code>docker pull saymagic/ubuntu-nginx</code>来直接获取一个安装了nginx的ubuntu系统了。不信？那就自己实践一下吧！</p>
+
+<h2 id="toc_5">Dockerfile使用</h2>
+
+<p>通过上面的学习，我们掌握了如何创建镜像、获取镜像、上传镜像、运行容器等等内容。有了上面的知识，我们来次实战。</p>
+
+<p>我们刚刚使用了<code>commit</code>命令创建了一个安装nginx的镜像，但其实Docker创建镜像的命令还有<code>build</code>,<code>build</code>命令可以通过指定一个Dockerfile文件来实现将镜像创建过程自动化。Dockerfile文件有着特定的编写规则，但语法都还比较容易理解。这次我们不仅使用Dockerfile文件来创建一个像上文一样安装nginx的ubuntu镜像，还要发挥nginx的老本行来运行一个网页吧！DockFile可以很轻松的完成这个问题。首先将新建一个名字为<code>www</code>的文件夹，文件夹下面可以放一些HTML网页，比如新建一个<code>index.html</code>文件，随便写点内容:</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+Learn Docker
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Enjoy Docker!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>在<code>www</code>的同级目录下新建一个名为<code>Dockerfile</code>的文件，将DockerFile文件改写如下：</p>
+
+<pre><code>FROM ubuntu:14.04
+MAINTAINER saymagic saymagic@163.com
+RUN apt-get update
+RUN apt-get install -y nginx
+COPY ./www /usr/share/nginx/html
+EXPOSE 80
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]</code></pre>
+
+<p>我来整体的解释下这个Dockerfile文件，第一行是用来声明我们的镜像是基于什么构建的，这里我们指定为ubuntu14.04 ,第二行的作用在于告诉别人你的大名。第三行和第四行的<code>RUN</code>命令用来在容器内部的shell里执行命令。第五行将当前系统的<code>www</code>文件夹拷贝到容器的<code>/usr/share/nginx/html</code>目录下，第六行声明当前需要对外开放80端口，最后一行表示运行容器时开启nginx。不理解没关系，因为这都是固定的语法，感兴趣可以多看相关内容。此时我们通过<code>build</code>命令来构建镜像，运行：</p>
+
+<pre><code>docker build -t=&quot;saymagic/ubuntu-nginx:v2&quot; .</code></pre>
+
+<p>注意，最后的<code>.</code>表示Dockerfile在当前目录，也可指定其它目录。此时，再次运行<code>docker images</code>就会看到刚刚生成的镜像：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mi5fittet0uhj1iluudg18b69.png" alt=""></p>
+
+<p>现在我们就可以运行刚刚的镜像了，和前面运行稍有不同，此时我们需要对外指定80端口，该行为通过-p参数指定，运行:</p>
+
+<pre><code>docker run -p 80:80 saymagic/ubuntu-nginx:v2</code></pre>
+
+<p>此时，终端会卡住，这是正常的，因为Docker的思想是每个容器最好只开一个线程做一件事，此时我们打开了nginx服务器，所以终端卡住也没关系（当然是有办法来解决这个问题，但这里不做介绍）。现在我们可以通过浏览器访问localhost查看效果，如果是虚拟主机则需输入主机ip地址,然后就能看到了如下的页面:</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mi604321v3rqt7c9n14td5iee.png" alt=""></p>
+
+<h2 id="toc_6">DaoCloud实战</h2>
+
+<p>如果我们自己没有服务器，刚刚的网页我们只能在本地访问，好可惜。别急，现在我要隆重介绍一个Docker的好伙伴-<code>DaoCloud</code>，官网传送门：<a href="https://www.daocloud.io/">https://www.daocloud.io/</a></p>
+
+<p>有了DaoCloud，我们只需要负责写Dockerfile，剩下的build、运行之类的东西都交给DaoCloud，我们只需要点一点按钮即可。</p>
+
+<p>DaoCloud会将Github、GitCafe等git服务商作为代码源，这里我使用GitCafe，为了你下面的操作更加方便，你可以直接Fork我的项目，项目地址:<a href="https://gitcafe.com/saymagic/LearnDocker">https://gitcafe.com/saymagic/LearnDocker</a></p>
+
+<p>接着，我们需要去Daocloud注册一个账号，完成后，进入个人主页后选择代码构建-&gt;创建新项目-&gt;给项目起一个响亮的名字-&gt;同步GitCafe代码源-&gt;选择GitCafe下的LearnDocker项目：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mi7r6ditavugaj4l3g71gk9.png" alt=""></p>
+
+<p>最后，点击开始创建按钮。Daoloud就会马不停蹄的运行起来。如果细心的话你会发现，DaoCloud的build会比本地快很多，很迅速就会完成镜像的构建：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mkka9shhma1q741guvov3ueq9.png" alt=""></p>
+
+<p>仅仅是构建镜像没什么意思， DaoCloud还可以将这个镜像在云端运行起来。我们点击绿色的查看镜像按钮，跳转到如下页面：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mkl286f1i2jdde1mv03ri2rqe.png" alt=""></p>
+
+<p>在DaoCloud中镜像需要运行在容器中，因为当前我们只构建了一个版本，所以选择部署最新版本和下面的部署按钮效果相同，点击任意一个，来到了这里：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mkl5g74slf169ohctct1cksj.png" alt=""></p>
+
+<p>我们给容器起一个霸气的名字｀learndocker｀，然后点击页面最下面的立即部署按钮，秒秒钟，我们的应用就运行了起来：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mkll7nc8nd1q641r2012fm4p1e.png" alt=""></p>
+
+<p>此时，注意到你自己运行成功的url后面的链接，将其复制到浏览器打开，你会发现，网页的内容就是本篇博客：</p>
+
+<p><img src="http://cdn.saymagic.cn/o_19mklifpp1s1g1jrs15u91bf0pjg9.png" alt=""></p>
+
+<h2 id="toc_7">写在最后</h2>
+
+<p>Docker能做的事情远不止这些，更多有意思的事情还请读者慢慢用心去发现。</p>
+
+
+</body>
+
+</html>
